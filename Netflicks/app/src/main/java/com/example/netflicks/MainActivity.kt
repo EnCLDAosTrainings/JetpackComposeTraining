@@ -29,6 +29,10 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        CoroutineScope(Dispatchers.Default).launch {
+            delay(3000L)
+            this@MainActivity.startActivity(Intent(this@MainActivity, TutorialActivity::class.java))
+        }
         setContent {
             NetflicksTheme {
                 SplashScreenScreen()
