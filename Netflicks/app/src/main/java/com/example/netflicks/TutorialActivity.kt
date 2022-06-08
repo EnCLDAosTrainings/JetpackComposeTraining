@@ -1,5 +1,7 @@
 package com.example.netflicks
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -46,18 +48,17 @@ class TutorialActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             NetflicksTheme {
-                TutorialScreen()
+                TutorialScreen(this@TutorialActivity)
             }
         }
     }
 }
 
 @Composable
-fun TutorialScreen(modifier: Modifier = Modifier) {
+fun TutorialScreen(context: Context? = null) {
     val pageNumber = remember { mutableStateOf(0) }
-
     Box(
-        modifier = modifier
+        modifier = Modifier
             .background(BlueApplication)
             .fillMaxSize(),
     ) {
@@ -116,7 +117,7 @@ fun TutorialScreen(modifier: Modifier = Modifier) {
             )
             Spacer(modifier = Modifier.height(20.dp))
             Row(
-                modifier = modifier.width(100.dp),
+                modifier = Modifier.width(100.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 for (i in 0..3) {
@@ -136,7 +137,11 @@ fun TutorialScreen(modifier: Modifier = Modifier) {
                 backgroundColor = GoldApplication
             ),
             onClick = {
-                if (pageNumber.value < 3) pageNumber.value++ else startNewActivity()
+                if (pageNumber.value < 3) {
+                    pageNumber.value++
+                } else {
+                    context?.startActivity(Intent(context, HomeActivity::class.java))
+                }
             }
         ) {
             Text(
@@ -146,10 +151,6 @@ fun TutorialScreen(modifier: Modifier = Modifier) {
             )
         }
     }
-}
-
-fun startNewActivity() {
-
 }
 
 @Composable

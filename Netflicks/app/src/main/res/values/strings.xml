@@ -15,7 +15,8 @@
     <string name="home_category_trailers">Trailers</string>
     <string name="home_category_now_in_cinemas">Now in Cinemas</string>
     <string name="home_category_coming_soon">Coming soon</string>
-    <string name="home_view_all_text">View all</string>
+    <string name="home_view_all_text">View all &gt;</string>
+    <string name="home_movie_appearing_in">Appearing in</string>
 
     <!-- Details -->
     <string name="details_buy_tickets">Buy tickets</string>

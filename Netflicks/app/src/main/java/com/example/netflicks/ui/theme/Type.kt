@@ -24,4 +24,37 @@ val Typography = Typography(
         fontSize = 40.sp,
         color = WhiteApplication
     ),
+    h2 = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 20.sp,
+        color = WhiteApplication
+    )
+)
+
+val TypographyHome = Typography(
+    h1 = TextStyle(
+        fontFamily = AllertaStencil,
+        fontWeight = FontWeight.Medium,
+        fontSize = 40.sp,
+        color = WhiteApplication
+    ),
+    h2  = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 25.sp,
+        color = WhiteApplication
+    ),
+    h3 = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 15.sp,
+        color = FadedTextApplication
+    ),
+    h4 = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 15.sp,
+        color = WhiteApplication
+    )
 )
