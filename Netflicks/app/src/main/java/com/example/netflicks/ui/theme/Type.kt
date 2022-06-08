@@ -15,12 +15,13 @@ val Typography = Typography(
     body1 = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
+        fontSize = 20.sp,
+        color = WhiteApplication
     ),
     h1 = TextStyle(
         fontFamily = AllertaStencil,
         fontWeight = FontWeight.Medium,
-        fontSize =  50.sp,
-        color = BlueApplication
-    )
+        fontSize = 40.sp,
+        color = WhiteApplication
+    ),
 )

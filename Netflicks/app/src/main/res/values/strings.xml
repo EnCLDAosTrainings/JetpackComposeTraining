@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">Netflicks</string>
+
+    <!-- Tutorial -->
+    <string name="tutorial_title">Smartest movie app</string>
+    <string name="tutorial_text_1">One of</string>
+    <string name="tutorial_text_2">Still one of</string>
+    <string name="tutorial_text_3">Not gonna lie,</string>
+    <string name="tutorial_text_4">If not, the most</string>
+    <string name="tutorial_button_text">next</string>
+    <string name="tutorial_text_prefix">applications for movies</string>
+    <string name="tutorial_the_best">THE BEST</string>
+
+    <!-- Home -->
+    <string name="home_category_trailers">Trailers</string>
+    <string name="home_category_now_in_cinemas">Now in Cinemas</string>
+    <string name="home_category_coming_soon">Coming soon</string>
+    <string name="home_view_all_text">View all</string>
+
+    <!-- Details -->
+    <string name="details_buy_tickets">Buy tickets</string>
+    <string name="details_tickets_total">Total:</string>
 </resources>
