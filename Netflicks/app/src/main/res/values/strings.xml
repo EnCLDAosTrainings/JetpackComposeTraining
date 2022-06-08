@@ -21,4 +21,5 @@
     <!-- Details -->
     <string name="details_buy_tickets">Buy tickets</string>
     <string name="details_tickets_total">Total:</string>
+    <string name="details_storyline">Storyline</string>
 </resources>

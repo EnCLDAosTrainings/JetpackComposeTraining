@@ -1,5 +1,8 @@
 package com.example.netflicks.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Movie(
     val id: Int,
     val name: String,
@@ -23,7 +26,7 @@ val movies = arrayListOf(
         "https://www.youtube.com/watch?v=V75dMMIW2B4",
         2001,
         "2h 58min",
-        arrayListOf("Adventure, Fantasy"),
+        arrayListOf("Adventure", "Fantasy"),
         "An ancient Ring thought lost for centuries has been found, and through a strange twist of fate has been given to a small Hobbit named Frodo. When Gandalf discovers the Ring is in fact the One Ring of the Dark Lord Sauron, Frodo must make an epic quest to the Cracks of Doom in order to destroy it. However, he does not go alone. He is joined by Gandalf, Legolas the elf, Gimli the Dwarf, Aragorn, Boromir, and his three Hobbit friends Merry, Pippin, and Samwise. Through mountains, snow, darkness, forests, rivers and plains, facing evil and danger at every corner the Fellowship of the Ring must go. Their quest to destroy the One Ring is the only hope for the end of the Dark Lords reign"
     ),
     Movie(
@@ -34,7 +37,7 @@ val movies = arrayListOf(
         "https://www.youtube.com/watch?v=zuZnRUcoWos",
         2010,
         "1h 43min",
-        arrayListOf("Horror, Mystery"),
+        arrayListOf("Horror", "Mystery"),
         "A gripping story of a family in search of help for their son, Dalton, who fell into a coma after a mysterious incident in the attic. Little do they know that there is much more to this endless sleep than meets the eye as they explore the paranormal, and rediscover the past; the key to getting their son back once and for all."
     ),
     //endregion
@@ -48,7 +51,7 @@ val movies = arrayListOf(
         "https://www.youtube.com/watch?v=aWzlQ2N6qqg",
         2022,
         "2h 6min",
-        arrayListOf("Fantasy, Sci-Fi"),
+        arrayListOf("Fantasy", "Sci-Fi"),
         "Doctor Strange teams up with a mysterious teenage girl from his dreams who can travel across multiverses, to battle multiple threats, including other-universe versions of himself, which threaten to wipe out millions across the multiverse. They seek help from Wanda the Scarlet Witch, Wong and others."
     ),
     Movie(
@@ -59,7 +62,7 @@ val movies = arrayListOf(
         "https://www.youtube.com/watch?v=-iun6KPT4SM",
         2021,
         "1h 45min",
-        arrayListOf("Animation, Fantasy"),
+        arrayListOf("Animation", "Fantasy"),
         "Yuta Okkotsu, a high schooler who gains control of an extremely powerful Cursed Spirit and gets enrolled in the Tokyo Prefectural Jujutsu High School by Jujutsu Sorcerers to help him control his power and keep an eye on him."
     ),
     Movie(
@@ -70,7 +73,7 @@ val movies = arrayListOf(
         "https://www.youtube.com/watch?v=fb5ELWi-ekk",
         2022,
         "2h 26min",
-        arrayListOf("Action, Sci-Fi"),
+        arrayListOf("Action", "Sci-Fi"),
         "Four years after the destruction of Isla Nublar, dinosaurs now live--and hunt--alongside humans all over the world. This fragile balance will reshape the future and determine, once and for all, whether human beings are to remain the apex predators on a planet they now share with history's most fearsome creatures in a new Era."
     ),
     Movie(
@@ -81,7 +84,7 @@ val movies = arrayListOf(
         "https://www.youtube.com/watch?v=bKL1ImsN-DU",
         2019,
         "2h 49min",
-        arrayListOf("Horror, Drama"),
+        arrayListOf("Horror", "Drama"),
         "Twenty-seven years after their first encounter with the terrifying Pennywise, the Losers Club have grown up and moved away, until a devastating phone call brings them back."
     ),
     //endregion
@@ -95,7 +98,7 @@ val movies = arrayListOf(
         "https://www.youtube.com/watch?v=Go8nTmfrQd8",
         2022,
         "Unkown",
-        arrayListOf("Action, Comedy"),
+        arrayListOf("Action", "Comedy"),
         "Thor enlists the help of Valkyrie, Korg and ex-girlfriend Jane Foster to fight Gorr the God Butcher, who intends to make the gods extinct."
     ),
     Movie(
@@ -106,7 +109,7 @@ val movies = arrayListOf(
         "https://www.youtube.com/watch?v=NZrX_ES93JA",
         2022,
         "Unkown",
-        arrayListOf("Adventure, Sci-Fi"),
+        arrayListOf("Adventure", "Sci-Fi"),
         "Jake Sully lives with his newfound family formed on the planet of Pandora. Once a familiar threat returns to finish what was previously started, Jake must work with Neytiri and the army of the Na'vi race to protect their planet."
     ),
     Movie(
@@ -117,7 +120,7 @@ val movies = arrayListOf(
         "https://www.youtube.com/watch?v=BMWtLXDkv6Y",
         2023,
         "Unkown",
-        arrayListOf("Action, Crime"),
+        arrayListOf("Action", "Crime"),
         "John Wick is declared excommunicado and a hefty bounty is set on him after he murders an international crime lord. He sets out to seek help to save himself from ruthless hitmen and bounty hunters."
     )
     //endregion

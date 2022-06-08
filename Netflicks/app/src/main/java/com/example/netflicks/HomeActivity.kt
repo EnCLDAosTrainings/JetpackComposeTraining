@@ -1,5 +1,6 @@
 package com.example.netflicks
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -22,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -37,6 +39,8 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.skydoves.landscapist.glide.GlideImage
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class HomeActivity : ComponentActivity() {
 
@@ -182,6 +186,7 @@ fun CategoryComingSoon(movies: List<Movie>) {
 
 @Composable
 fun MovieItem(movie: Movie) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .requiredWidth(150.dp)
@@ -192,7 +197,11 @@ fun MovieItem(movie: Movie) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp)
-                .clickable { /*TODO*/ },
+                .clickable {
+                    val intent = Intent(context, DetailsActivity::class.java)
+                    intent.putExtra(EXTRA_MOVIE, Json.encodeToString(movie))
+                    context.startActivity(intent)
+                },
             elevation = 10.dp
         ) {
             GlideImage(
@@ -219,59 +228,7 @@ fun MovieItem(movie: Movie) {
                     .height(20.dp),
                 horizontalArrangement = Arrangement.spacedBy(5.dp)
             ) {
-                val rating = movie.rating / 10 * 5
-                val numbers = rating.toString().split('.')
-                val first = numbers[0].toInt()
-                val second = numbers[1].toInt()
-                var remaining = 5
-                if (first != 0) {
-                    for (i in 0 until first) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_full_star),
-                            contentDescription = "Full star",
-                            modifier = Modifier.size(10.dp)
-                        )
-                    }
-                    remaining -= first
-                    if (second != 0) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_half_star),
-                            contentDescription = "Half star",
-                            modifier = Modifier.size(10.dp)
-                        )
-                        remaining -= 1
-                    }
-                    for (i in 0 until remaining) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_empty_star),
-                            contentDescription = "Empty star",
-                            modifier = Modifier.size(10.dp)
-                        )
-                    }
-                } else {
-                    if (second != 0) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_half_star),
-                            contentDescription = "Half star",
-                            modifier = Modifier.size(10.dp)
-                        )
-                        for (i in 0 until 4) {
-                            Image(
-                                painter = painterResource(id = R.drawable.ic_empty_star),
-                                contentDescription = "Empty star",
-                                modifier = Modifier.size(10.dp)
-                            )
-                        }
-                    } else {
-                        for (i in 0 until 5) {
-                            Image(
-                                painter = painterResource(id = R.drawable.ic_empty_star),
-                                contentDescription = "Empty star",
-                                modifier = Modifier.size(10.dp)
-                            )
-                        }
-                    }
-                }
+                DrawStars(movie = movie, modifier = Modifier.size(10.dp))
             }
         } else {
             Text(
@@ -281,6 +238,71 @@ fun MovieItem(movie: Movie) {
                     .height(20.dp),
                 style = TypographyHome.h4
             )
+        }
+    }
+}
+
+@Composable
+fun DrawStars(movie: Movie, modifier: Modifier, spacerModifier: Modifier = Modifier) {
+    val rating = movie.rating / 10 * 5
+    val numbers = rating.toString().split('.')
+    val first = numbers[0].toInt()
+    val second = numbers[1].toInt()
+    var remaining = 5
+    if (first != 0) {
+        for (i in 0 until first) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_full_star),
+                contentDescription = "Full star",
+                modifier = modifier
+            )
+            Spacer(modifier = spacerModifier)
+        }
+        remaining -= first
+        if (second != 0) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_half_star),
+                contentDescription = "Half star",
+                modifier = modifier
+            )
+            Spacer(modifier = spacerModifier)
+            remaining -= 1
+        }
+        for (i in 0 until remaining) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_empty_star),
+                contentDescription = "Empty star",
+                modifier = modifier
+            )
+            Spacer(modifier = spacerModifier)
+        }
+    } else {
+        if (second != 0) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_half_star),
+                contentDescription = "Half star",
+                modifier = modifier
+            )
+            Spacer(modifier = spacerModifier)
+
+            for (i in 0 until 4) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_empty_star),
+                    contentDescription = "Empty star",
+                    modifier = modifier
+                )
+                Spacer(modifier = spacerModifier)
+
+            }
+        } else {
+            for (i in 0 until 5) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_empty_star),
+                    contentDescription = "Empty star",
+                    modifier = modifier
+                )
+                Spacer(modifier = spacerModifier)
+            }
         }
     }
 }
