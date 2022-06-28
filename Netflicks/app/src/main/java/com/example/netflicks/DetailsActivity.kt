@@ -12,7 +12,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -225,7 +227,7 @@ fun BottomBar(boxScope: BoxScope) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                val tickets = remember {
+                var tickets by rememberSaveable {
                     mutableStateOf(0)
                 }
                 Text(
@@ -244,13 +246,13 @@ fun BottomBar(boxScope: BoxScope) {
                         color = BlueApplication,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.clickable {
-                            if (tickets.value > 0) {
-                                tickets.value -= 1;
+                            if (tickets > 0) {
+                                tickets -= 1;
                             }
                         }
                     )
                     Text(
-                        text = tickets.value.toString(),
+                        text = tickets.toString(),
                         fontSize = 15.sp,
                         color = BlueApplication,
                         fontWeight = FontWeight.Bold,
@@ -265,12 +267,12 @@ fun BottomBar(boxScope: BoxScope) {
                         color = BlueApplication,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.clickable {
-                            tickets.value += 1;
+                            tickets += 1;
                         }
                     )
                 }
                 Text(
-                    text = stringResource(id = R.string.details_tickets_total) + " " + tickets.value + "\$",
+                    text = stringResource(id = R.string.details_tickets_total) + " " + tickets + "\$",
                     fontSize = 15.sp,
                     color = BlueApplication,
                     fontWeight = FontWeight.Bold

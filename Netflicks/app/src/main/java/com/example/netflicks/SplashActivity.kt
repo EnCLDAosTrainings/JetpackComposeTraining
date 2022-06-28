@@ -9,11 +9,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.view.WindowCompat
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.gif.GifDrawable
@@ -26,16 +26,23 @@ import com.example.netflicks.ui.theme.WhiteApplication
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.*
 
-class MainActivity : ComponentActivity() {
+class SplashActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        CoroutineScope(Dispatchers.Default).launch {
-            delay(3000L)
-            this@MainActivity.startActivity(Intent(this@MainActivity, TutorialActivity::class.java))
-        }
+
         setContent {
             NetflicksTheme {
+                LaunchedEffect(true) {
+                    delay(3000L)
+                    this@SplashActivity.startActivity(
+                        Intent(
+                            this@SplashActivity,
+                            TutorialActivity::class.java
+                        )
+                    )
+                    this@SplashActivity.finish()
+                }
                 SplashScreenScreen()
             }
         }

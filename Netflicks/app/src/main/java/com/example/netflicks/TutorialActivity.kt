@@ -16,7 +16,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -56,7 +58,7 @@ class TutorialActivity : ComponentActivity() {
 
 @Composable
 fun TutorialScreen(context: Context? = null) {
-    val pageNumber = remember { mutableStateOf(0) }
+    var pageNumber by rememberSaveable { mutableStateOf(0) }
     Box(
         modifier = Modifier
             .background(BlueApplication)
@@ -100,7 +102,7 @@ fun TutorialScreen(context: Context? = null) {
                 modifier = Modifier.fillMaxWidth(0.8f),
 
                 text = buildAnnotatedString {
-                    append(stringResource(id = pages[pageNumber.value]))
+                    append(stringResource(id = pages[pageNumber]))
                     append(" ")
                     withStyle(
                         style = SpanStyle(
@@ -121,7 +123,7 @@ fun TutorialScreen(context: Context? = null) {
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 for (i in 0..3) {
-                    DrawDot(i == pageNumber.value)
+                    DrawDot(i == pageNumber)
                 }
             }
         }
@@ -137,8 +139,8 @@ fun TutorialScreen(context: Context? = null) {
                 backgroundColor = GoldApplication
             ),
             onClick = {
-                if (pageNumber.value < 3) {
-                    pageNumber.value++
+                if (pageNumber < 3) {
+                    pageNumber += 1
                 } else {
                     context?.startActivity(Intent(context, HomeActivity::class.java))
                 }

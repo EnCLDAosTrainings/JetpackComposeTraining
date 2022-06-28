@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Netflicks">
         <activity
-        android:name=".MainActivity"
+        android:name=".SplashActivity"
         android:exported="true"
         android:theme="@style/Theme.Netflicks">
             <intent-filter>
