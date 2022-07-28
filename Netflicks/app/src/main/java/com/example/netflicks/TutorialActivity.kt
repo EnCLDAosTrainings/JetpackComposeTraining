@@ -2,6 +2,7 @@ package com.example.netflicks
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,15 +11,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -34,8 +32,9 @@ import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.netflicks.ui.theme.*
+import com.example.netflicks.ui.theme.GoldApplication
+import com.example.netflicks.ui.theme.NetflicksTheme
+import com.example.netflicks.ui.theme.TransparentApplication
 
 private val pages = arrayListOf(
     R.string.tutorial_text_1,
@@ -61,8 +60,8 @@ fun TutorialScreen(context: Context? = null) {
     var pageNumber by rememberSaveable { mutableStateOf(0) }
     Box(
         modifier = Modifier
-            .background(BlueApplication)
-            .fillMaxSize(),
+            .fillMaxSize()
+            .background(MaterialTheme.colors.primary)
     ) {
         Image(
             modifier = Modifier
@@ -80,8 +79,8 @@ fun TutorialScreen(context: Context? = null) {
                 .background(
                     Brush.verticalGradient(
                         0f to TransparentApplication,
-                        0.7f to BlueApplication,
-                        1f to BlueApplication,
+                        0.7f to MaterialTheme.colors.primary,
+                        1f to MaterialTheme.colors.primary,
                     )
                 )
         )
@@ -95,12 +94,13 @@ fun TutorialScreen(context: Context? = null) {
                 modifier = Modifier,
                 text = stringResource(id = R.string.tutorial_title),
                 style = MaterialTheme.typography.h1,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colors.onPrimary
             )
             Spacer(modifier = Modifier.height(40.dp))
             Text(
                 modifier = Modifier.fillMaxWidth(0.8f),
-
+                color = MaterialTheme.colors.onPrimary,
                 text = buildAnnotatedString {
                     append(stringResource(id = pages[pageNumber]))
                     append(" ")
@@ -114,7 +114,7 @@ fun TutorialScreen(context: Context? = null) {
                     append(" ")
                     append(stringResource(id = R.string.tutorial_text_prefix))
                 },
-                style = MaterialTheme.typography.body1,
+                style = MaterialTheme.typography.h2,
                 textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.height(20.dp))
@@ -123,7 +123,7 @@ fun TutorialScreen(context: Context? = null) {
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 for (i in 0..3) {
-                    DrawDot(i == pageNumber)
+                    DrawDot(i == pageNumber, MaterialTheme.colors)
                 }
             }
         }
@@ -136,7 +136,7 @@ fun TutorialScreen(context: Context? = null) {
                 .shadow(10.dp, RoundedCornerShape(20.dp)),
             shape = RoundedCornerShape(20.dp),
             colors = ButtonDefaults.textButtonColors(
-                backgroundColor = GoldApplication
+                backgroundColor = MaterialTheme.colors.secondary
             ),
             onClick = {
                 if (pageNumber < 3) {
@@ -148,24 +148,32 @@ fun TutorialScreen(context: Context? = null) {
         ) {
             Text(
                 text = stringResource(id = R.string.tutorial_button_text).toUpperCase(Locale.current),
-                fontSize = 20.sp,
-                color = BlackApplication
+                style = MaterialTheme.typography.button,
+                color = MaterialTheme.colors.onSecondary
             )
         }
     }
 }
 
 @Composable
-fun DrawDot(selected: Boolean = false) {
+fun DrawDot(selected: Boolean = false, colors: Colors) {
     Canvas(
         modifier = Modifier.size(10.dp),
-        onDraw = { drawCircle(color = if (selected) GoldApplication else WhiteApplication) }
+        onDraw = { drawCircle(color = if (selected) colors.secondary else colors.secondaryVariant) }
     )
 }
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewTutorialScreen() {
+fun PreviewLightTutorialScreen() {
+    NetflicksTheme {
+        TutorialScreen()
+    }
+}
+
+@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Composable
+fun PreviewDarkTutorialScreen() {
     NetflicksTheme {
         TutorialScreen()
     }

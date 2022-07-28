@@ -1,6 +1,7 @@
 package com.example.netflicks
 
 import android.content.Intent
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -21,7 +22,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -64,14 +64,14 @@ fun BottomNavigationBar() {
         NavigationItem.More
     )
     BottomNavigation(
-        backgroundColor = BlueApplication.copy(0.8f),
-        contentColor = WhiteApplication,
+        backgroundColor = MaterialTheme.colors.secondary.copy(0.8f),
+        contentColor = MaterialTheme.colors.onSecondary,
     ) {
         items.forEach { item ->
             BottomNavigationItem(
                 icon = { Icon(painterResource(id = item.icon), contentDescription = item.title) },
-                selectedContentColor = GoldApplication,
-                unselectedContentColor = Color.White,
+                selectedContentColor = MaterialTheme.colors.secondaryVariant,
+                unselectedContentColor = MaterialTheme.colors.onSecondary,
                 alwaysShowLabel = false,
                 selected = false,
                 onClick = { /* TODO */ }
@@ -84,7 +84,7 @@ fun BottomNavigationBar() {
 fun HomeScreen() {
     Scaffold(
         bottomBar = { BottomNavigationBar() },
-        backgroundColor = BlueApplication
+        backgroundColor = MaterialTheme.colors.primary
     ) { innerPadding ->
         Box(
             modifier = Modifier
@@ -105,7 +105,7 @@ fun HomeScreen() {
                         Text(
                             modifier = Modifier,
                             text = stringResource(id = R.string.app_name),
-                            style = TypographyHome.h1,
+                            style = MaterialTheme.typography.h1,
                             textAlign = TextAlign.Center
                         )
                         Image(
@@ -124,7 +124,7 @@ fun HomeScreen() {
                     CategoryTexts(textId = R.string.home_category_trailers)
                 }
                 item {
-                    CategoryTrailers(movies)
+                    CategoryTrailers(movies, MaterialTheme.colors)
                 }
                 item {
                     CategoryTexts(textId = R.string.home_category_now_in_cinemas)
@@ -147,7 +147,7 @@ fun HomeScreen() {
                     .background(
                         Brush.verticalGradient(
                             0f to TransparentApplication,
-                            1f to WhiteApplication,
+                            1f to MaterialTheme.colors.onPrimary,
                         )
                     )
             )
@@ -218,7 +218,7 @@ fun MovieItem(movie: Movie) {
                 .height(20.dp),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            style = TypographyHome.h4
+            style = MaterialTheme.typography.body1
         )
         Spacer(modifier = Modifier.height(5.dp))
         if (movie.rating != 0F) {
@@ -236,7 +236,7 @@ fun MovieItem(movie: Movie) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(20.dp),
-                style = TypographyHome.h4
+                style = MaterialTheme.typography.body2
             )
         }
     }
@@ -308,20 +308,20 @@ fun DrawStars(movie: Movie, modifier: Modifier, spacerModifier: Modifier = Modif
 }
 
 @Composable
-fun CategoryTrailers(movies: List<Movie>) {
+fun CategoryTrailers(movies: List<Movie>, colors: Colors) {
     LazyRow(
         modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(horizontal = 20.dp),
         horizontalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         items(movies.size) { index ->
-            TrailerItem(index, movies)
+            TrailerItem(index, movies, colors)
         }
     }
 }
 
 @Composable
-fun TrailerItem(index: Int, movies: List<Movie>) {
+fun TrailerItem(index: Int, movies: List<Movie>, colors: Colors) {
     val player = remember { mutableStateOf<YouTubePlayer?>(null) }
     val videoStarted = remember { mutableStateOf(false) }
     Card(
@@ -370,7 +370,7 @@ fun TrailerItem(index: Int, movies: List<Movie>) {
                 Canvas(
                     modifier = Modifier
                         .size(50.dp),
-                    onDraw = { drawCircle(color = BlueApplication.copy(0.5f)) }
+                    onDraw = { drawCircle(color = colors.primary.copy(0.5f)) }
                 )
                 Image(
                     modifier = Modifier.size(30.dp),
@@ -393,14 +393,14 @@ fun CategoryTexts(textId: Int) {
         Text(
             modifier = Modifier,
             text = stringResource(id = textId),
-            style = TypographyHome.h2,
+            style = MaterialTheme.typography.h2,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold
         )
         Text(
             modifier = Modifier.align(Alignment.CenterVertically),
             text = stringResource(id = R.string.home_view_all_text),
-            style = TypographyHome.h3,
+            style = MaterialTheme.typography.h6,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold
         )
@@ -415,25 +415,33 @@ fun PreviewNowInCinema() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewTrailerItem() {
-    NetflicksTheme {
-        TrailerItem(index = 0, movies = movies)
-    }
-}
-
-@Preview
-@Composable
-fun PreviewCategoryTexts() {
-    NetflicksTheme {
-        CategoryTexts(textId = R.string.home_category_trailers)
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewTrailerItem() {
+//    NetflicksTheme {
+//        TrailerItem(index = 0, movies = movies)
+//    }
+//}
+//
+//@Preview
+//@Composable
+//fun PreviewCategoryTexts() {
+//    NetflicksTheme {
+//        CategoryTexts(textId = R.string.home_category_trailers)
+//    }
+//}
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun PreviewHomeScreen() {
+fun PreviewLightHomeScreen() {
+    NetflicksTheme {
+        HomeScreen()
+    }
+}
+
+@Preview(showBackground = true, showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
+@Composable
+fun PreviewDarkHomeScreen() {
     NetflicksTheme {
         HomeScreen()
     }
