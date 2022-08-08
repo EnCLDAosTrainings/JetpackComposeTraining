@@ -6,17 +6,17 @@ import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -58,6 +58,7 @@ class TutorialActivity : ComponentActivity() {
 @Composable
 fun TutorialScreen(context: Context? = null) {
     var pageNumber by rememberSaveable { mutableStateOf(0) }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -98,25 +99,14 @@ fun TutorialScreen(context: Context? = null) {
                 color = MaterialTheme.colors.onPrimary
             )
             Spacer(modifier = Modifier.height(40.dp))
-            Text(
-                modifier = Modifier.fillMaxWidth(0.8f),
-                color = MaterialTheme.colors.onPrimary,
-                text = buildAnnotatedString {
-                    append(stringResource(id = pages[pageNumber]))
-                    append(" ")
-                    withStyle(
-                        style = SpanStyle(
-                            color = GoldApplication
-                        )
-                    ) {
-                        append(stringResource(id = R.string.tutorial_the_best))
-                    }
-                    append(" ")
-                    append(stringResource(id = R.string.tutorial_text_prefix))
-                },
-                style = MaterialTheme.typography.h2,
-                textAlign = TextAlign.Center
-            )
+
+            Crossfade(
+                targetState = pageNumber,
+                animationSpec = tween(durationMillis = 1000)
+            ) { page ->
+                DescriptionText(textPrefix = stringResource(pages[page]))
+            }
+
             Spacer(modifier = Modifier.height(20.dp))
             Row(
                 modifier = Modifier.width(100.dp),
@@ -156,10 +146,38 @@ fun TutorialScreen(context: Context? = null) {
 }
 
 @Composable
+fun DescriptionText(textPrefix: String) {
+    Text(
+        modifier = Modifier.fillMaxWidth(0.8f),
+        color = MaterialTheme.colors.onPrimary,
+        text = buildAnnotatedString {
+            append(textPrefix)
+            append(" ")
+            withStyle(
+                style = SpanStyle(
+                    color = GoldApplication
+                )
+            ) {
+                append(stringResource(id = R.string.tutorial_the_best))
+            }
+            append(" ")
+            append(stringResource(id = R.string.tutorial_text_prefix))
+        },
+        style = MaterialTheme.typography.h2,
+        textAlign = TextAlign.Center
+    )
+}
+
+@Composable
 fun DrawDot(selected: Boolean = false, colors: Colors) {
+    val color by animateColorAsState(
+        targetValue = if (selected) colors.secondary else colors.secondaryVariant,
+        tween(durationMillis = 1000)
+    )
+
     Canvas(
         modifier = Modifier.size(10.dp),
-        onDraw = { drawCircle(color = if (selected) colors.secondary else colors.secondaryVariant) }
+        onDraw = { drawCircle(color = color) }
     )
 }
 
