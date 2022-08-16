@@ -1,10 +1,6 @@
 package com.example.netflicks
 
-import android.content.Intent
 import android.graphics.drawable.Drawable
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,33 +20,15 @@ import com.example.netflicks.ui.theme.BlueApplication
 import com.example.netflicks.ui.theme.NetflicksTheme
 import com.example.netflicks.ui.theme.WhiteApplication
 import com.skydoves.landscapist.glide.GlideImage
-import kotlinx.coroutines.*
-
-class SplashActivity : ComponentActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setContent {
-            NetflicksTheme {
-                LaunchedEffect(true) {
-                    delay(3000L)
-                    this@SplashActivity.startActivity(
-                        Intent(
-                            this@SplashActivity,
-                            TutorialActivity::class.java
-                        )
-                    )
-                    this@SplashActivity.finish()
-                }
-                SplashScreenScreen()
-            }
-        }
-    }
-}
+import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreenScreen() {
+fun SplashScreen(finishSplashCallback: () -> Unit) {
+    LaunchedEffect(true) {
+        delay(3000L)
+        finishSplashCallback()
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -86,7 +64,6 @@ fun SplashScreenScreen() {
                     isFirstResource: Boolean
                 ): Boolean {
                     (resource as GifDrawable).setLoopCount(1)
-
                     return false
                 }
             })
@@ -97,6 +74,6 @@ fun SplashScreenScreen() {
 @Composable
 fun PreviewSplashScreen() {
     NetflicksTheme {
-        SplashScreenScreen()
+        SplashScreen {}
     }
 }

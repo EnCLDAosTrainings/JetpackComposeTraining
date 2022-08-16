@@ -1,9 +1,6 @@
 package com.example.netflicks
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -34,26 +31,11 @@ import com.example.netflicks.ui.theme.NetflicksTheme
 import com.example.netflicks.ui.theme.TransparentApplication
 import com.example.netflicks.ui.theme.WhiteApplication
 import com.skydoves.landscapist.glide.GlideImage
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
-
-const val EXTRA_MOVIE = "EXTRA_MOVIE"
-
-class DetailsActivity : ComponentActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val movie = Json.decodeFromString<Movie>(intent.getStringExtra(EXTRA_MOVIE)!!)
-        setContent {
-            NetflicksTheme {
-                DetailsScreen(movie)
-            }
-        }
-    }
-}
 
 @Composable
-fun DetailsScreen(movie: Movie) {
+fun DetailsScreen(movieId: Int, popBackCallback: () -> Unit) {
+    val movie = movies.find { it.id == movieId }!!
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -84,6 +66,7 @@ fun DetailsScreen(movie: Movie) {
                         Modifier
                             .align(Alignment.TopStart)
                             .padding(start = 20.dp, top = 50.dp)
+                            .clickable { popBackCallback() }
                     )
                     CircleIcon(
                         resId = R.drawable.ic_heart,
@@ -202,7 +185,7 @@ fun MovieInfo(boxScope: BoxScope, movie: Movie) {
 fun CircleIcon(resId: Int, modifier: Modifier) {
     Box(
         modifier = modifier.wrapContentSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Canvas(
             modifier = Modifier
@@ -318,7 +301,7 @@ fun PreviewLightBottomBar() {
 @Composable
 fun PreviewLightDetailsScreen() {
     NetflicksTheme {
-        DetailsScreen(movies[0])
+        DetailsScreen(0) {}
     }
 }
 
@@ -340,6 +323,6 @@ fun PreviewDarkBottomBar() {
 @Composable
 fun PreviewDarkDetailsScreen() {
     NetflicksTheme {
-        DetailsScreen(movies[0])
+        DetailsScreen(0) {}
     }
 }

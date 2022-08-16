@@ -1,11 +1,6 @@
 package com.example.netflicks
 
-import android.content.Context
-import android.content.Intent
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
@@ -15,8 +10,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -43,20 +41,8 @@ private val pages = arrayListOf(
     R.string.tutorial_text_4
 )
 
-class TutorialActivity : ComponentActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            NetflicksTheme {
-                TutorialScreen(this@TutorialActivity)
-            }
-        }
-    }
-}
-
 @Composable
-fun TutorialScreen(context: Context? = null) {
+fun TutorialScreen(tutorialFinishCallback: () -> Unit) {
     var pageNumber by rememberSaveable { mutableStateOf(0) }
 
     Box(
@@ -132,7 +118,7 @@ fun TutorialScreen(context: Context? = null) {
                 if (pageNumber < 3) {
                     pageNumber += 1
                 } else {
-                    context?.startActivity(Intent(context, HomeActivity::class.java))
+                    tutorialFinishCallback()
                 }
             }
         ) {
@@ -185,7 +171,7 @@ fun DrawDot(selected: Boolean = false, colors: Colors) {
 @Composable
 fun PreviewLightTutorialScreen() {
     NetflicksTheme {
-        TutorialScreen()
+        TutorialScreen {}
     }
 }
 
@@ -193,6 +179,6 @@ fun PreviewLightTutorialScreen() {
 @Composable
 fun PreviewDarkTutorialScreen() {
     NetflicksTheme {
-        TutorialScreen()
+        TutorialScreen {}
     }
 }
