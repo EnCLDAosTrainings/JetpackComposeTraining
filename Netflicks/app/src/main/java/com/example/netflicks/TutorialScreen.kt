@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -34,7 +35,7 @@ import com.example.netflicks.ui.theme.GoldApplication
 import com.example.netflicks.ui.theme.NetflicksTheme
 import com.example.netflicks.ui.theme.TransparentApplication
 
-private val pages = arrayListOf(
+val pages = arrayListOf(
     R.string.tutorial_text_1,
     R.string.tutorial_text_2,
     R.string.tutorial_text_3,
